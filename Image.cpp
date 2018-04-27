@@ -228,4 +228,60 @@ namespace RHMMUH005
 			return tmp;
 		}
 	}
+
+	Image Image::operator*(const int threshold) const {
+		Image tmp(*this);
+
+		Image::iterator beg = begin(), end = end();
+		Image::iterator inStart = tmp.begin();
+
+		while (beg != end) {
+			if ((int)(*inStart) <= threshold) {
+				*inStart = (unsigned char) 0;
+			}
+			else {
+				*inStart = (unsigned char)255;
+			}
+
+			++beg;
+			++inStart;
+		}
+
+		return tmp;
+	}
+
+	void Image::loadImage(string loadFile) {
+		ifstream file(loadFile, ios::in | ios::binary);
+		fileName = loadFile;
+
+		string line;
+		getline(file, line);
+
+		while (line[0] == '#') {
+			getline(file, line);
+		}
+
+		istringstream wh(line);
+		wh >> width >> height;
+
+		int values;
+		file >> values >> ws;
+
+		data = unique_ptr<unsigned char[]>(new char[width*height]);
+		file.read((char*)data.get(), width*height);
+		file.close();
+	}
+
+	void Image::saveImage(string saveFile) {
+		ofstream file(saveFile, ios::out | ios::binary);
+		//file << "P5" << endl << "# " << saveFile << endl;
+
+		file << "P5" << endl;
+		file << "#" << saveFile << endl;
+		file << width << " " << height << endl;
+		file << "255" << endl;
+
+		file.write((char*)data.get(), width*height);
+		file.close();
+	}
 }
