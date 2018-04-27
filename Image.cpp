@@ -38,12 +38,6 @@ namespace RHMMUH005
 			++inStart;
 		}
 
-		/*
-		for(Image::iterator beg = begin(), inStart = rhs.begin(); inStart != rhs.end(); ++beg, ++inStart)
-		{
-			*beg = *inStart;
-		}
-		*/
 	}
 
 	Image& Image::operator=(const Image& rhs)
@@ -63,13 +57,6 @@ namespace RHMMUH005
 			++beg;
 			++inStart;
 		}
-
-		/*
-		for(Image::iterator beg = begin() , inStart = rhs.begin(); inStart != rhs.end(); ++beg, ++inStart)
-		{
-			*beg = *inStart;
-		}
-		*/
 
 		return *this;
 	}
@@ -91,13 +78,6 @@ namespace RHMMUH005
 			++beg;
 			++inStart;
 		}
-
-		/*
-		for(Image::iterator beg = begin() , inStart = rhs.begin(); inStart != rhs.end(); ++beg, ++inStart)
-		{
-			*beg = *inStart;
-		}
-		*/
 
 		rhs.width = 0;
 		rhs.height = 0;
@@ -122,13 +102,6 @@ namespace RHMMUH005
 			++beg;
 			++inStart;
 		}
-
-		/*
-		for(Image::iterator inStart = rhs.begin(), beg = begin(); inStart != rhs.end(); ++inStart, ++beg)
-		{
-			*beg = *inStart;
-		}
-		*/
 
 		rhs.width = 0;
 		rhs.height = 0;
@@ -166,20 +139,6 @@ namespace RHMMUH005
 				++inStart;
 			}
 
-			/*
-			for(Image::iterator inStart = rhs.begin(), beg = tmp.begin(); inStart != rhs.end(); ++beg, ++inStart)
-			{
-				int number = (int)(*beg) + (int)(*inStart);
-				if (number > 255) {
-					number = 255;
-				}
-				else if (number < 0){
-					number = 0;
-				}
-				*beg = (unsigned char)(number);
-			}
-			*/
-
 			return tmp;
 		}
 		else {
@@ -211,21 +170,6 @@ namespace RHMMUH005
 				++inStart;
 			}
 
-			/*
-			for(Image::iterator beg = tmp.begin(), inStart = rhs.begin(); inStart != rhs.end(); ++beg, ++inStart)
-			{
-				int number = (int)(*beg) - (int)(*inStart);
-				if (number > 255) {
-					number = 255;
-				}
-				else if (number < 0) {
-					number = 0;
-				}
-
-				*beg = (unsigned char)(number);
-			}
-			*/
-
 			return tmp;
 		}
 		else {
@@ -255,22 +199,6 @@ namespace RHMMUH005
 			++beg;
 			++inStart;
 		}
-
-		/*
-		for(Image::iterator beg = begin(), inStart = tmp.begin(); beg != end(); ++beg, ++inStart)
-		{
-			int number = 255 - (int)(*beg);
-
-			if (number > 255) {
-				number = 255;
-			}
-			else if (number < 0) {
-				number = 0;
-			}
-
-			*inStart = (unsigned char)(number);
-		}
-		*/
 
 		return tmp;
 	}
@@ -302,25 +230,6 @@ namespace RHMMUH005
 				++inStart;
 			}
 
-			/*
-			for(Image::iterator inStart = tmp.begin(), beg = begin(); beg != end(); ++inStart, ++beg)
-			{
-				if((int)(*inStart) == 255)
-				{
-					int number = (int)(*beg);
-
-					if (number > 255) {
-						number = 255;
-					}
-					else if (number < 0) {
-						number = 0;
-					}
-
-					*inStart = (unsigned char)(number);
-				}
-			}
-			*/
-
 			return tmp;
 		}
 
@@ -347,20 +256,6 @@ namespace RHMMUH005
 			++beg;
 			++inStart;
 		}
-
-		/*
-		for(Image::iterator beg = begin(), inStart = tmp.begin(); beg != end(); ++beg, ++inStart)
-		{
-			if((int)(*inStart) <= threshold)
-			{
-				*inStart = (unsigned char)0;
-			}
-			else
-			{
-				*inStart = (unsigned char)255;
-			}
-		}
-		*/
 
 		return tmp;
 	}
