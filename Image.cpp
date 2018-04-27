@@ -210,5 +210,73 @@ namespace RHMMUH005
 		return tmp;
 	}
 
+	void Image::saveImage(string saveFile) {
+		ofstream file(saveFile, ios::out | ios::binary);
 
+		file << "P5" << endl;
+		file << "#" << saveFile << endl;
+		file << width << " " << height << endl;
+		file << "255" << endl;
+
+		file.write((char*).data.get(), width*height);
+		file.close();
+	}
+
+	void Image::loadImage(string loadFile) {
+		ifstream file(loadFile, ios::in | ios::binary);
+		fileName = loadFile;
+
+		string line;
+
+		while (!file.eof()) {
+			getline(file, line);
+
+			if (line[0] == '#' || line == "P5") {
+				continue;
+			}
+
+			else if (line == "255") {
+				break;
+			}
+
+			else {
+				stringstream ss(line);
+				string number;
+
+				getline(ss, number, ' ');
+				width = stoi(number);
+
+				getline(ss, number, ' ');
+				height = stoi(number);
+			}
+		}
+
+		unsigned char *imgbytes = new unsigned char[width*height];
+		file.read((char*) imgbytes, width*height);
+		file.close();
+
+		data = unique_ptr<unsigned char[]>(imgbytes);
+		
+		/*
+		ifstream ifsFileIn(fName, ios::in|ios::binary);
+		imgName = fName;
+		string ln;
+		getline(ifsFileIn, ln);
+		hdr = hdr + ln + "\n";
+		getline(ifsFileIn, ln);
+		while(ln[0] == '#')
+		{
+		hdr = hdr + ln + "\n";   
+		getline(ifsFileIn, ln);
+		}
+		istringstream w_and_h(ln);
+		w_and_h >> width >> height;
+		int numbers;
+		ifsFileIn >> numbers >> ws;
+		int dmn = height * width;
+		data = unique_ptr<u_char[]>(new u_char[dmn]);
+		ifsFileIn.read((char*)data.get(), dmn);
+		ifsFileIn.close();
+		*/
+	}
 }
