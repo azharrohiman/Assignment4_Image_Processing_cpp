@@ -66,6 +66,9 @@ namespace RHMMUH005 {
 
 			iterator begin(void) const;
 			iterator end() const;
+
+			friend std::ostream& operator<<(std::ostream& os, const Image& image);
+			friend std::istream& operator>>(std::istream& is, Image& image);
 	};
 
 	std::ostream& operator<<(std::ostream& os, const Image& image);

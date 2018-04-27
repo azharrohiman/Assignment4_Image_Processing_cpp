@@ -284,4 +284,75 @@ namespace RHMMUH005
 		file.write((char*)data.get(), width*height);
 		file.close();
 	}
+
+	// Operators for iterator class
+
+	const Image::iterator& Image::iterator::operator++() {
+		ptr++;
+		return *this;
+	}
+
+	const Image::iterator& Image::iterator::operator--() {
+		ptr--;
+		return *this;
+	}
+
+	unsigned char& Image::iterator::operator*() {
+		return *ptr;
+	}
+
+	Image::iterator& Image::iterator::operator=(const Image::iterator& rhs) {
+		ptr = rhs.ptr;
+		return *this;
+	}
+
+	Image::iterator& Image::iterator::operator=(Image::iterator&& rhs) {
+		ptr = rhs.ptr;
+		rhs.ptr = nullptr;
+		return *this;
+	}
+
+	bool Image::iterator::operator==(const Image::iterator& rhs) {
+		return (ptr == rhs.ptr);
+	}
+
+	bool Image::iterator::operator!=(const Image::iterator& rhs) {
+		return (ptr != rhs.ptr);
+	}
+
+	Image::iterator Image::begin(void) const {
+		return iterator(data.get());
+	}
+
+	Image::iterator Image::end() const {
+		return iterator(&data[width*height]);
+	}
+
+	ostream& operator<<(ostream& os, const Image& image) {
+		os << "P5" << "#" << image.width << " " << image.height << '\n' << 255 << endl;
+		os.write((char*)image.data.get(), image.width*image.height);
+
+		return os;
+	}
+
+	istream& operator>>(istream& is, Image& image) {
+		string line;
+		getline(is, line);
+
+		while (line[0] == '#') {
+			getline(is, line);
+		}
+
+		istringstream wh(line);
+		wh >> image.width >> image.height;
+
+		int values;
+		is >> values >> ws;
+
+		image.data = unique_ptr<unsigned char[]>(new char[image.width*image.height]);
+		is.read((char*)image.data.get(), image.width*image.height);
+
+		return is;
+	}
+
 }
