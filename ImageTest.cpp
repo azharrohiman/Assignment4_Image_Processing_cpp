@@ -1,7 +1,7 @@
+#define CATCH_CONFIG_MAIN
+
 #include "Image.h"
 #include "catch.hpp"
-
-#define CATCH_CONFIG_MAIN
 
 using namespace RHMMUH005;
 
@@ -17,16 +17,16 @@ TEST_CASE("Copy Constructor/Assignment", "[copy operators]") {
 	Image image1(&arr, 2, 2);
 
 	REQUIRE(image1.width == 2);
-	REQUIRE(image1.height = 2);
+	REQUIRE(image1.height == 2);
 
 	SECTION("Copy Constructor") {
 
 		Image image2(image1);
 
 		REQUIRE(image1.width == 2);
-		REQUIRE(image1.height = 2);
+		REQUIRE(image1.height == 2);
 		REQUIRE(image2.width == 2);
-		REQUIRE(image2.height = 2);
+		REQUIRE(image2.height == 2);
 	}
 
 	SECTION("Copy Assignment") {
@@ -35,9 +35,9 @@ TEST_CASE("Copy Constructor/Assignment", "[copy operators]") {
 		image2 = image1;
 
 		REQUIRE(image1.width == 2);
-		REQUIRE(image1.height = 2);
+		REQUIRE(image1.height == 2);
 		REQUIRE(image2.width == 2);
-		REQUIRE(image2.height = 2);
+		REQUIRE(image2.height == 2);
 	}
 }
 
@@ -53,27 +53,27 @@ TEST_CASE("Move Constructor/Assignment", "[move operators]") {
 	Image image1(&arr, 2, 2);
 
 	REQUIRE(image1.width == 2);
-	REQUIRE(image1.height = 2);
+	REQUIRE(image1.height == 2);
 
 	SECTION("Move Constructor") {
 
 		Image image2(std::move(image1));
 
 		REQUIRE(image1.width == 0);
-		REQUIRE(image1.height = 0);
+		REQUIRE(image1.height == 0);
 		REQUIRE(image2.width == 2);
-		REQUIRE(image2.height = 2);
+		REQUIRE(image2.height == 2);
 	}
 
 	SECTION("Move Assignment") {
 
 		Image image2;
-		image = std::move(image1);
+		image2 = std::move(image1);
 
 		REQUIRE(image1.width == 0);
-		REQUIRE(image1.height = 0);
+		REQUIRE(image1.height == 0);
 		REQUIRE(image2.width == 2);
-		REQUIRE(image2.height = 2);
+		REQUIRE(image2.height == 2);
 	}
 }
 
@@ -101,7 +101,7 @@ TEST_CASE("Addition", "[Adding images]") {
 
 		Image addition = image1 + image2;
 
-		Imag::iterator beg = addition.begin();
+		Image::iterator beg = addition.begin();
 
 		int i = 0;
 
@@ -112,13 +112,6 @@ TEST_CASE("Addition", "[Adding images]") {
 			++beg;
 			i++;
 		}
-
-		/*
-		int i = 0;
-		for (Image::iterator beg = addition.begin(); beg != addition.end(); ++beg, i++) {
-			REQUIRE(imageArray[i] == (int)(*beg));
-		}
-		*/
 	}
 }
 
@@ -195,13 +188,6 @@ TEST_CASE("Inverting", "[Invert Image]") {
 			i++;
 
 		}
-
-		/*
-		int i = 0;
-		for (Image::iterator beg = invrt.begin(); itrAlt != beg.end(); ++beg, i++) {
-			REQUIRE(imageArray[i] == (int)(*beg));
-		}
-		*/
 	}
 }
 

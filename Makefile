@@ -10,12 +10,12 @@ driver.o: driver.cpp
 	$(CC) -c driver.cpp
 
 test:
-	$(CC) -c -o Image.o Image.cpp
-	$(CC) -c -o ImageTest.o ImageTest.cpp
-	$(CC) -o imagetest ImageTest.o Image.o
+	$(CC) -c -o Image.o Image.cpp --std=c++11 -w
+	$(CC) -c -o ImageTest.o ImageTest.cpp --std=c++11 -w
+	$(CC) -o imagetest ImageTest.o Image.o --std=c++11 -w
 
 run-test:
 	./imagetest
 
 clean:
-	rm -rf *.o imageops
+	rm -rf *.o imageops imagetest
