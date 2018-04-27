@@ -2,7 +2,7 @@
 #include <iostream>
 #include <memory>
 #include <string>
-#incldue <sstream>
+#include <sstream>
 
 #include "Image.h"
 
@@ -24,28 +24,52 @@ namespace RHMMUH005
 	{
 		width = rhs.width;
 		height = rhs.height;
-		imgName = rhs.imgName;
+		fileName = rhs.fileName;
 
 		data = unique_ptr<unsigned char[]>(new unsigned char[rhs.height * rhs.width]);
 
+		Image::iterator beg = begin();
+		Image::iterator inStart = rhs.begin(), inEnd = rhs.end();
+
+		while (inStart != inEnd) {
+			*beg = *inStart;
+
+			++beg;
+			++inStart;
+		}
+
+		/*
 		for(Image::iterator beg = begin(), inStart = rhs.begin(); inStart != rhs.end(); ++beg, ++inStart)
 		{
 			*beg = *inStart;
 		}
+		*/
 	}
 
 	Image& Image::operator=(const Image& rhs)
 	{
 		width = rhs.width;
 		height = rhs.height;
-		imgName = rhs.imgName;
+		fileName = rhs.fileName;
 
 		data = unique_ptr<unsigned char[]>(new unsigned char[rhs.height * rhs.width]);
 
+		Image::iterator beg = begin();
+		Image::iterator inStart = rhs.begin(), inEnd = rhs.end();
+
+		while (inStart != inEnd) {
+			*beg = *inStart;
+
+			++beg;
+			++inStart;
+		}
+
+		/*
 		for(Image::iterator beg = begin() , inStart = rhs.begin(); inStart != rhs.end(); ++beg, ++inStart)
 		{
 			*beg = *inStart;
 		}
+		*/
 
 		return *this;
 	}
@@ -54,38 +78,62 @@ namespace RHMMUH005
 	{
 		width = rhs.width;
 		height = rhs.height;
-		imgName = rhs.imgName;
+		fileName = rhs.fileName;
 
 		data = unique_ptr<unsigned char[]>(new unsigned char[rhs.height * rhs.width]);
 
+		Image::iterator beg = begin();
+		Image::iterator inStart = rhs.begin(), inEnd = rhs.end();
+
+		while (inStart != inEnd) {
+			*beg = *inStart;
+
+			++beg;
+			++inStart;
+		}
+
+		/*
 		for(Image::iterator beg = begin() , inStart = rhs.begin(); inStart != rhs.end(); ++beg, ++inStart)
 		{
 			*beg = *inStart;
 		}
+		*/
 
 		rhs.width = 0;
 		rhs.height = 0;
 		rhs.data = nullptr;
-		rhs.imgName = "";
+		rhs.fileName = "";
 	}
 
 	Image& Image::operator=(Image&& rhs)
 	{
 		width = rhs.width;
 		height = rhs.height;
-		imgName = rhs.imgName;
+		fileName = rhs.fileName;
 
 		data = unique_ptr<unsigned char[]>(new unsigned char[rhs.height * rhs.width]);
 
+		Image::iterator beg = begin();
+		Image::iterator inStart = rhs.begin(), inEnd = rhs.end();
+
+		while (inStart != inEnd) {
+			*beg = *inStart;
+
+			++beg;
+			++inStart;
+		}
+
+		/*
 		for(Image::iterator inStart = rhs.begin(), beg = begin(); inStart != rhs.end(); ++inStart, ++beg)
 		{
 			*beg = *inStart;
 		}
+		*/
 
 		rhs.width = 0;
 		rhs.height = 0;
 		rhs.data = nullptr;
-		rhs.imgName = "";
+		rhs.fileName = "";
 
 		return *this;
 	}
@@ -99,6 +147,26 @@ namespace RHMMUH005
 		if(height == rhs.height && width == rhs.width)
 		{
 			Image tmp(*this);
+
+			Image::iterator beg = tmp.begin();
+			Image::iterator inStart = rhs.begin(), inEnd = rhs.end();
+
+			while (inStart != inEnd) {
+				int number = (int)(*beg) + (int)(*inStart);
+				if (number > 255) {
+					number = 255;
+				}
+				else if (number < 0) {
+					number = 0;
+				}
+
+				*beg = (unsigned char)(number);
+
+				++beg;
+				++inStart;
+			}
+
+			/*
 			for(Image::iterator inStart = rhs.begin(), beg = tmp.begin(); inStart != rhs.end(); ++beg, ++inStart)
 			{
 				int number = (int)(*beg) + (int)(*inStart);
@@ -110,6 +178,7 @@ namespace RHMMUH005
 				}
 				*beg = (unsigned char)(number);
 			}
+			*/
 
 			return tmp;
 		}
@@ -123,6 +192,26 @@ namespace RHMMUH005
 		if(height == rhs.height && width == rhs.width)
 		{
 			Image tmp(*this);
+
+			Image::iterator beg = tmp.begin();
+			Image::iterator inStart = rhs.begin(), inEnd = rhs.end();
+
+			while (inStart != inEnd) {
+				int number = (int)(*beg) - (int)(*inStart);
+				if (number > 255) {
+					number = 255;
+				}
+				else if (number < 0) {
+					number = 0;
+				}
+
+				*beg = (unsigned char)(number);
+
+				++beg;
+				++inStart;
+			}
+
+			/*
 			for(Image::iterator beg = tmp.begin(), inStart = rhs.begin(); inStart != rhs.end(); ++beg, ++inStart)
 			{
 				int number = (int)(*beg) - (int)(*inStart);
@@ -135,6 +224,7 @@ namespace RHMMUH005
 
 				*beg = (unsigned char)(number);
 			}
+			*/
 
 			return tmp;
 		}
@@ -146,6 +236,27 @@ namespace RHMMUH005
 	Image Image::operator!() const
 	{
 		Image tmp(*this);
+
+		Image::iterator beg = begin();
+		Image::iterator inStart = tmp.begin();
+
+		while (beg != end()) {
+			int number = 255 - (int)(*beg);
+
+			if (number > 255) {
+				number = 255;
+			}
+			else if (number < 0) {
+				number = 0;
+			}
+
+			*inStart = (unsigned char)(number);
+
+			++beg;
+			++inStart;
+		}
+
+		/*
 		for(Image::iterator beg = begin(), inStart = tmp.begin(); beg != end(); ++beg, ++inStart)
 		{
 			int number = 255 - (int)(*beg);
@@ -159,6 +270,7 @@ namespace RHMMUH005
 
 			*inStart = (unsigned char)(number);
 		}
+		*/
 
 		return tmp;
 	}
@@ -168,21 +280,46 @@ namespace RHMMUH005
 		if(height == rhs.height && width == rhs.width)
 		{
 			Image tmp(rhs);
+
+			Image::iterator beg = begin();
+			Image::iterator inStart = tmp.begin();
+
+			while (beg != end()) {
+				if ((int)(*inStart) == 255) {
+					int number = (int)(*beg);
+
+					if (number > 255) {
+						number = 255;
+					}
+					else if (number < 0) {
+						number = 0;
+					}
+
+					*inStart = (unsigned char)(number);
+				}
+
+				++beg;
+				++inStart;
+			}
+
+			/*
 			for(Image::iterator inStart = tmp.begin(), beg = begin(); beg != end(); ++inStart, ++beg)
 			{
 				if((int)(*inStart) == 255)
 				{
-					if ((int)(*beg) > 255) {
-						(int)(*beg) = 255;
+					int number = (int)(*beg);
+
+					if (number > 255) {
+						number = 255;
 					}
-					else if ((int)(*beg) < 0) {
-						(int)(*beg) = 0;
+					else if (number < 0) {
+						number = 0;
 					}
 
-					int number = ((int)(*beg));
 					*inStart = (unsigned char)(number);
 				}
 			}
+			*/
 
 			return tmp;
 		}
@@ -195,6 +332,23 @@ namespace RHMMUH005
 	Image Image::operator*(const int threshold) const
 	{
 		Image tmp(*this);
+
+		Image::iterator beg = begin();
+		Image::iterator inStart = tmp.begin();
+
+		while (beg != end()) {
+			if ((int)(*inStart) <= threshold) {
+				*inStart = (unsigned char)0;
+			}
+			else {
+				*inStart = (unsigned char)255;
+			}
+
+			++beg;
+			++inStart;
+		}
+
+		/*
 		for(Image::iterator beg = begin(), inStart = tmp.begin(); beg != end(); ++beg, ++inStart)
 		{
 			if((int)(*inStart) <= threshold)
@@ -206,6 +360,7 @@ namespace RHMMUH005
 				*inStart = (unsigned char)255;
 			}
 		}
+		*/
 
 		return tmp;
 	}
@@ -218,7 +373,7 @@ namespace RHMMUH005
 		file << width << " " << height << endl;
 		file << "255" << endl;
 
-		file.write((char*).data.get(), width*height);
+		file.write((char*)data.get(), width*height);
 		file.close();
 	}
 
@@ -256,28 +411,6 @@ namespace RHMMUH005
 		file.close();
 
 		data = unique_ptr<unsigned char[]>(imgbytes);
-		
-		/*
-		ifstream ifsFileIn(fName, ios::in|ios::binary);
-		imgName = fName;
-		string ln;
-		getline(ifsFileIn, ln);
-		hdr = hdr + ln + "\n";
-		getline(ifsFileIn, ln);
-		while(ln[0] == '#')
-		{
-		hdr = hdr + ln + "\n";   
-		getline(ifsFileIn, ln);
-		}
-		istringstream w_and_h(ln);
-		w_and_h >> width >> height;
-		int numbers;
-		ifsFileIn >> numbers >> ws;
-		int dmn = height * width;
-		data = unique_ptr<u_char[]>(new u_char[dmn]);
-		ifsFileIn.read((char*)data.get(), dmn);
-		ifsFileIn.close();
-		*/
 	}
 
 	const Image::iterator& Image::iterator::operator++()
@@ -336,7 +469,6 @@ namespace RHMMUH005
 		string line;
 		getline(is, line);
 
-		// getline(is, line);
 		while (line[0] == '#') {
 			getline(is, line);
 		}
