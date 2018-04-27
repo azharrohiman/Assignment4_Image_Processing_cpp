@@ -333,6 +333,22 @@ namespace RHMMUH005
 	}
 
 	istream& operator>>(istream& is, Image& image) {
-		
+		string line;
+		getline(is, line);
+
+		// getline(is, line);
+		while (line[0] == '#') {
+			getline(is, line);
+		}
+
+		istringstream wh(line);
+		wh >> image.width >> image.height;
+
+		int values;
+		is >> values >> ws;
+
+		image.data = unique_ptr<unsigned char[]>(new unsigned char[image.width*image.height]);
+		is.read((char*)image.data.get(), image.width*image.height);
+		return is;
 	}
 }
