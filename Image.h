@@ -7,12 +7,15 @@
 namespace RHMMUH005 {
 	
 	class Image {
-		private:
+
+		friend std::ostream& operator<<(std::ostream& os, const Image& image);
+		friend std::istream& operator>>(std::istream& is, Image& image);
+
+		public:
 			int height, width;
 			std::unique_ptr<unsigned char[]> data;
 			std::string fileName;
 
-		public:
 			Image();
 			//
 			Image(const Image& rhs);
@@ -54,7 +57,7 @@ namespace RHMMUH005 {
 
 					const iterator& operator--();
 
-					unsigned char operator*();
+					unsigned char& operator*();
 
 					iterator& operator=(const iterator& rhs);
 
@@ -67,8 +70,6 @@ namespace RHMMUH005 {
 			iterator begin(void) const;
 			iterator end() const;
 
-			friend std::ostream& operator<<(std::ostream& os, const Image& image);
-			friend std::istream& operator>>(std::istream& is, Image& image);
 	};
 
 	std::ostream& operator<<(std::ostream& os, const Image& image);
