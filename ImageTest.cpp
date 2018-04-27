@@ -77,6 +77,89 @@ TEST_CASE("Move Constructor/Assignment", "[move operators]") {
 	}
 }
 
+TEST_CASE("Addition", "[Adding images]") {
+
+	unsigned char* arr = new unsigned char[4];
+
+	arr[0] = (unsigned char) 255;
+	arr[1] = (unsigned char) 0;
+	arr[2] = (unsigned char) 255;
+	arr[3] = (unsigned char) 0;
+
+	unsigned char* arr2 = new unsigned char[4];
+
+	arr2[0] = (unsigned char) 0;
+	arr2[1] = (unsigned char) 255;
+	arr2[2] = (unsigned char) 255;
+	arr2[3] = (unsigned char) 0;
+
+	Image image1(&arr, 2, 2);
+	Image image2(&arr2, 2, 2);
+
+	SECTION("Addition Test") {
+		int  imageArray[] = {255, 255, 255, 0};
+
+		Image addition = image1 + image2;
+
+		Imag::iterator beg = addition.begin();
+
+		int i = 0;
+
+		while (beg != addition.end()) {
+
+			REQUIRE(imageArray[i] == (int)(*beg));
+
+			++beg;
+			i++;
+		}
+
+		/*
+		int i = 0;
+		for (Image::iterator beg = addition.begin(); beg != addition.end(); ++beg, i++) {
+			REQUIRE(imageArray[i] == (int)(*beg));
+		}
+		*/
+	}
+}
+
+TEST_CASE("Subtraction", "[Subtracting images]") {
+
+	unsigned char* arr = new unsigned char[4];
+
+	arr[0] = (unsigned char) 255;
+	arr[1] = (unsigned char) 0;
+	arr[2] = (unsigned char) 255;
+	arr[3] = (unsigned char) 0;
+
+	unsigned char* arr2 = new unsigned char[4];
+
+	arr2[0] = (unsigned char) 0;
+	arr2[1] = (unsigned char) 255;
+	arr2[2] = (unsigned char) 255;
+	arr2[3] = (unsigned char) 0;
+
+	Image image1(&arr, 2, 2);
+	Image image2(&arr2, 2, 2);
+
+	SECTION("Subtraction Test") {
+		int imageArray[] = {255, 0, 0, 0};
+
+		Image subtraction = image1 - image2;
+
+		Image::iterator beg = subtraction.begin();
+
+		int i = 0;
+
+		while (beg != subtraction.end()) {
+
+			REQUIRE(imageArray[i] == (int)(*beg));
+
+			++beg;
+			i++;
+		}
+	}
+}
+
 TEST_CASE("Inverting", "[Invert Image]") {
 
 	unsigned char* arr = new unsigned char[4];
@@ -94,7 +177,7 @@ TEST_CASE("Inverting", "[Invert Image]") {
 	arr2[3] = (unsigned char) 0;
 
 	Image image1(&arr, 2, 2);
-	Image image2(&arr, 2, 2);
+	Image image2(&arr2, 2, 2);
 
 	SECTION("Invert Test") {
 		int imageArray[] = {0, 255, 0, 255};
@@ -115,9 +198,76 @@ TEST_CASE("Inverting", "[Invert Image]") {
 
 		/*
 		int i = 0;
-		for (Image::iterator itrAlt = invrt.begin(); itrAlt != alt.end(); ++itrAlt, i++) {
-			REQUIRE(imageArray[i] == (int)(*itrAlt));
+		for (Image::iterator beg = invrt.begin(); itrAlt != beg.end(); ++beg, i++) {
+			REQUIRE(imageArray[i] == (int)(*beg));
 		}
 		*/
+	}
+}
+
+TEST_CASE("Threshold", "[Threshold]") {
+
+	unsigned char* arr = new unsigned char[4];
+
+	arr[0] = (unsigned char) 255;
+	arr[1] = (unsigned char) 0;
+	arr[2] = (unsigned char) 255;
+	arr[3] = (unsigned char) 0;
+
+	Image image1(&arr, 2, 2);
+
+	SECTION("Threshold Test") {
+		int imageArray[] = {255, 0, 255, 0};
+
+		Image threshold = image1 * 200;
+
+		Image::iterator beg = threshold.begin();
+
+		int i = 0;
+
+		while (beg != threshold.end()) {
+			REQUIRE(imageArray[i] == (int)(*beg));
+
+			++beg;
+			i++;
+		}
+
+	}
+}
+
+TEST_CASE("Masking", "[Masking Test]") {
+
+	unsigned char* arr = new unsigned char[4];
+
+	arr[0] = (unsigned char) 255;
+	arr[1] = (unsigned char) 0;
+	arr[2] = (unsigned char) 255;
+	arr[3] = (unsigned char) 0;
+
+	unsigned char* arr2 = new unsigned char[4];
+
+	arr2[0] = (unsigned char) 0;
+	arr2[1] = (unsigned char) 255;
+	arr2[2] = (unsigned char) 255;
+	arr2[3] = (unsigned char) 0;
+
+	Image image1(&arr, 2, 2);
+	Image image2(&arr2, 2, 2);
+
+	SECTION("Masking Test") {
+		int imageArray[] = {0, 0, 255, 0};
+
+		Image mask = image1/image2;
+
+		Image::iterator beg = mask.begin();
+
+		int i = 0;
+
+		while (beg != mask.end()) {
+			REQUIRE(imageArray[i] == (int)(*beg));
+
+			++beg;
+			i++;
+		}
 	}
 }

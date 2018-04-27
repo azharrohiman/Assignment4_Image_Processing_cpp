@@ -9,5 +9,13 @@ Image.o: Image.cpp Image.h
 driver.o: driver.cpp
 	$(CC) -c driver.cpp
 
+test:
+	$(CC) -c -o Image.o Image.cpp
+	$(CC) -c -o ImageTest.o ImageTest.cpp
+	$(CC) -o imagetest ImageTest.o Image.o
+
+run-test:
+	./imagetest
+
 clean:
 	rm -rf *.o imageops
