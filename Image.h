@@ -17,7 +17,7 @@ namespace RHMMUH005 {
 			std::string fileName;
 
 			Image();
-			//
+			Image(unsigned char** arr, int width, int height);
 			Image(const Image& rhs);
 			Image& operator=(const Image & rhs);
 			Image(Image&& other);
