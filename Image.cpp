@@ -18,10 +18,10 @@ namespace RHMMUH005
 		fileName = "";
 	}
 
-	Image::Image(unsigned char** arr, int w, int h) {
+	Image::Image(unique_ptr<unsigned char[]> d, int w, int h) {
 		width = w;
 		height = h;
-		data = unique_ptr<unsigned char[]>(*arr);
+		data = move(d);
 		fileName = "";
 	}
 

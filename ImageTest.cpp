@@ -1,20 +1,15 @@
 #define CATCH_CONFIG_MAIN
-
-#include "Image.h"
 #include "catch.hpp"
+#include "Image.h"
 
 using namespace RHMMUH005;
+using namespace std;
 
 TEST_CASE("Copy Constructor/Assignment", "[copy operators]") {
 
-	unsigned char* arr = new unsigned char[4];
+	unique_ptr<unsigned char[]> data = unique_ptr<unsigned char[]>{new unsigned char[4]{255, 0, 255, 0}};
 
-	arr[0] = (unsigned char) 255;
-	arr[1] = (unsigned char) 0;
-	arr[2] = (unsigned char) 255;
-	arr[3] = (unsigned char) 0;
-
-	Image image1(&arr, 2, 2);
+	Image image1(move(data), 2, 2);
 
 	REQUIRE(image1.width == 2);
 	REQUIRE(image1.height == 2);
@@ -41,16 +36,12 @@ TEST_CASE("Copy Constructor/Assignment", "[copy operators]") {
 	}
 }
 
+
 TEST_CASE("Move Constructor/Assignment", "[move operators]") {
 
-	unsigned char* arr = new unsigned char[4];
+	unique_ptr<unsigned char[]> data = unique_ptr<unsigned char[]>{new unsigned char[4]{255, 0, 255, 0}};
 
-	arr[0] = (unsigned char) 255;
-	arr[1] = (unsigned char) 0;
-	arr[2] = (unsigned char) 255;
-	arr[3] = (unsigned char) 0;
-
-	Image image1(&arr, 2, 2);
+	Image image1(move(data), 2, 2);
 
 	REQUIRE(image1.width == 2);
 	REQUIRE(image1.height == 2);
@@ -79,22 +70,13 @@ TEST_CASE("Move Constructor/Assignment", "[move operators]") {
 
 TEST_CASE("Addition", "[Adding images]") {
 
-	unsigned char* arr = new unsigned char[4];
+	unique_ptr<unsigned char[]> data = unique_ptr<unsigned char[]>{new unsigned char[4]{255, 0, 255, 0}};
 
-	arr[0] = (unsigned char) 255;
-	arr[1] = (unsigned char) 0;
-	arr[2] = (unsigned char) 255;
-	arr[3] = (unsigned char) 0;
+	Image image1(move(data), 2, 2);
 
-	unsigned char* arr2 = new unsigned char[4];
+	unique_ptr<unsigned char[]> data2 = unique_ptr<unsigned char[]>{new unsigned char[4]{0, 255, 255, 0}};
 
-	arr2[0] = (unsigned char) 0;
-	arr2[1] = (unsigned char) 255;
-	arr2[2] = (unsigned char) 255;
-	arr2[3] = (unsigned char) 0;
-
-	Image image1(&arr, 2, 2);
-	Image image2(&arr2, 2, 2);
+	Image image2(move(data2), 2, 2);
 
 	SECTION("Addition Test") {
 		int  imageArray[] = {255, 255, 255, 0};
@@ -117,22 +99,13 @@ TEST_CASE("Addition", "[Adding images]") {
 
 TEST_CASE("Subtraction", "[Subtracting images]") {
 
-	unsigned char* arr = new unsigned char[4];
+	unique_ptr<unsigned char[]> data = unique_ptr<unsigned char[]>{new unsigned char[4]{255, 0, 255, 0}};
 
-	arr[0] = (unsigned char) 255;
-	arr[1] = (unsigned char) 0;
-	arr[2] = (unsigned char) 255;
-	arr[3] = (unsigned char) 0;
+	Image image1(move(data), 2, 2);
 
-	unsigned char* arr2 = new unsigned char[4];
+	unique_ptr<unsigned char[]> data2 = unique_ptr<unsigned char[]>{new unsigned char[4]{0, 255, 255, 0}};
 
-	arr2[0] = (unsigned char) 0;
-	arr2[1] = (unsigned char) 255;
-	arr2[2] = (unsigned char) 255;
-	arr2[3] = (unsigned char) 0;
-
-	Image image1(&arr, 2, 2);
-	Image image2(&arr2, 2, 2);
+	Image image2(move(data2), 2, 2);
 
 	SECTION("Subtraction Test") {
 		int imageArray[] = {255, 0, 0, 0};
@@ -155,22 +128,13 @@ TEST_CASE("Subtraction", "[Subtracting images]") {
 
 TEST_CASE("Inverting", "[Invert Image]") {
 
-	unsigned char* arr = new unsigned char[4];
+	unique_ptr<unsigned char[]> data = unique_ptr<unsigned char[]>{new unsigned char[4]{255, 0, 255, 0}};
 
-	arr[0] = (unsigned char) 255;
-	arr[1] = (unsigned char) 0;
-	arr[2] = (unsigned char) 255;
-	arr[3] = (unsigned char) 0;
+	Image image1(move(data), 2, 2);
 
-	unsigned char* arr2 = new unsigned char[4];
+	unique_ptr<unsigned char[]> data2 = unique_ptr<unsigned char[]>{new unsigned char[4]{0, 255, 255, 0}};
 
-	arr2[0] = (unsigned char) 0;
-	arr2[1] = (unsigned char) 255;
-	arr2[2] = (unsigned char) 255;
-	arr2[3] = (unsigned char) 0;
-
-	Image image1(&arr, 2, 2);
-	Image image2(&arr2, 2, 2);
+	Image image2(move(data2), 2, 2);
 
 	SECTION("Invert Test") {
 		int imageArray[] = {0, 255, 0, 255};
@@ -193,14 +157,9 @@ TEST_CASE("Inverting", "[Invert Image]") {
 
 TEST_CASE("Threshold", "[Threshold]") {
 
-	unsigned char* arr = new unsigned char[4];
+	unique_ptr<unsigned char[]> data = unique_ptr<unsigned char[]>{new unsigned char[4]{255, 0, 255, 0}};
 
-	arr[0] = (unsigned char) 255;
-	arr[1] = (unsigned char) 0;
-	arr[2] = (unsigned char) 255;
-	arr[3] = (unsigned char) 0;
-
-	Image image1(&arr, 2, 2);
+	Image image1(move(data), 2, 2);
 
 	SECTION("Threshold Test") {
 		int imageArray[] = {255, 0, 255, 0};
@@ -223,22 +182,13 @@ TEST_CASE("Threshold", "[Threshold]") {
 
 TEST_CASE("Masking", "[Masking Test]") {
 
-	unsigned char* arr = new unsigned char[4];
+	unique_ptr<unsigned char[]> data = unique_ptr<unsigned char[]>{new unsigned char[4]{255, 0, 255, 0}};
 
-	arr[0] = (unsigned char) 255;
-	arr[1] = (unsigned char) 0;
-	arr[2] = (unsigned char) 255;
-	arr[3] = (unsigned char) 0;
+	Image image1(move(data), 2, 2);
 
-	unsigned char* arr2 = new unsigned char[4];
+	unique_ptr<unsigned char[]> data2 = unique_ptr<unsigned char[]>{new unsigned char[4]{0, 255, 255, 0}};
 
-	arr2[0] = (unsigned char) 0;
-	arr2[1] = (unsigned char) 255;
-	arr2[2] = (unsigned char) 255;
-	arr2[3] = (unsigned char) 0;
-
-	Image image1(&arr, 2, 2);
-	Image image2(&arr2, 2, 2);
+	Image image2(move(data2), 2, 2);
 
 	SECTION("Masking Test") {
 		int imageArray[] = {0, 0, 255, 0};
