@@ -55,7 +55,11 @@ namespace RHMMUH005 {
 
 					const iterator& operator++();
 
+					const iterator operator++(int);
+
 					const iterator& operator--();
+
+					const iterator operator--(int);
 
 					unsigned char& operator*();
 

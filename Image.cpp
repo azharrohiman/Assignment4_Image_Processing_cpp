@@ -319,10 +319,22 @@ namespace RHMMUH005
 		return *this;
 	}
 
+	const Image::iterator Image::iterator::operator++(int) {
+		Image::iterator temp(*this);
+		++ptr;
+		return temp;
+	}
+
 	const Image::iterator& Image::iterator::operator--()
 	{
 		ptr --;
 		return *this;
+	}
+
+	const Image::iterator Image::iterator::operator--(int) {
+		Image::iterator temp(*this);
+		--ptr;
+		return temp;
 	}
 
 	unsigned char& Image::iterator::operator*() {
