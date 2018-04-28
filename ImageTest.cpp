@@ -255,3 +255,109 @@ TEST_CASE("Masking", "[Masking Test]") {
 		}
 	}
 }
+
+TEST_CASE("Iterator", "[Iterator Class Operators]") {
+
+	unique_ptr<unsigned char[]> data = unique_ptr<unsigned char[]>{new unsigned char[4]{255, 0, 255, 0}};
+
+	Image image1(move(data), 2, 2);
+
+	Image::iterator iter = image1.begin();
+
+	SECTION("Copy Constructor") {
+
+		Image::iterator iterCopy(iter);
+
+		REQUIRE(*iterCopy == 255);
+		++iterCopy;
+		REQUIRE(*iterCopy == 0);
+		++iterCopy;
+		REQUIRE(*iterCopy == 255);
+		++iterCopy;
+		REQUIRE(*iterCopy == 0);
+	}
+
+	SECTION("Copy assignment") {
+
+		Image::iterator iterCopy = image1.end();
+		iterCopy = iter;
+
+		REQUIRE(*iterCopy == 255);
+		++iterCopy;
+		REQUIRE(*iterCopy == 0);
+		++iterCopy;
+		REQUIRE(*iterCopy == 255);
+		++iterCopy;
+		REQUIRE(*iterCopy == 0);
+	}
+
+	SECTION("Prefix increment") {
+
+		REQUIRE(*iter == 255);
+		++iter;
+
+		REQUIRE(*iter == 0);
+		++iter;
+
+		REQUIRE(*iter == 255);
+		++iter;
+
+		REQUIRE(*iter == 0);
+		++iter;
+
+		REQUIRE(iter == image1.end());
+	}
+
+	SECTION("Postfix increment"){
+
+		REQUIRE(*iter == 255);
+		iter++;
+
+		REQUIRE(*iter == 0);
+		iter++;
+
+		REQUIRE(*iter == 255);
+		iter++;
+
+		REQUIRE(*iter == 0);
+		iter++;
+
+		REQUIRE(iter == image1.end());
+	}
+
+	SECTION("Prefix decrement") {
+
+		iter = image1.end();
+
+		--iter;
+		REQUIRE(*iter == 0);
+
+		--iter;
+		REQUIRE(*iter == 255);
+
+		--iter;
+		REQUIRE(*iter == 0);
+
+		--iter;
+		REQUIRE(*iter == 255);
+		REQUIRE(iter == image1.begin());
+	}
+
+	SECTION("Postfix decrement") {
+
+		iter = image1.end();
+		iter--;
+
+		REQUIRE(*iter == 0);
+		iter--;
+
+		REQUIRE(*iter == 255);
+		iter--;
+
+		REQUIRE(*iter == 0);
+		iter--;
+
+		REQUIRE(*iter == 255);
+		REQUIRE(iter == image1.begin());
+	}
+}
