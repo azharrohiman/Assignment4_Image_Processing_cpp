@@ -7,12 +7,26 @@ using namespace std;
 
 TEST_CASE("Copy Constructor/Assignment", "[copy operators]") {
 
+	SECTION("Default Constructor") {
+		Image image;
+		REQUIRE(image.width == 0);
+		REQUIRE(image.height == 0);
+		REQUIRE(image.data == nullptr);
+	}
+
 	unique_ptr<unsigned char[]> data = unique_ptr<unsigned char[]>{new unsigned char[4]{255, 0, 255, 0}};
 
 	Image image1(move(data), 2, 2);
 
-	REQUIRE(image1.width == 2);
-	REQUIRE(image1.height == 2);
+	SECTION("Data Construction") {
+		REQUIRE(image1.width == 2);
+		REQUIRE(image1.height == 2);
+
+		REQUIRE(image1.data[0] == 255);
+		REQUIRE(image1.data[1] == 0);
+		REQUIRE(image1.data[2] == 255);
+		REQUIRE(image1.data[3] == 0);
+	}
 
 	SECTION("Copy Constructor") {
 
@@ -22,6 +36,16 @@ TEST_CASE("Copy Constructor/Assignment", "[copy operators]") {
 		REQUIRE(image1.height == 2);
 		REQUIRE(image2.width == 2);
 		REQUIRE(image2.height == 2);
+
+		REQUIRE(image1.data[0] == 255);
+		REQUIRE(image1.data[1] == 0);
+		REQUIRE(image1.data[2] == 255);
+		REQUIRE(image1.data[3] == 0);
+
+		REQUIRE(image2.data[0] == 255);
+		REQUIRE(image2.data[1] == 0);
+		REQUIRE(image2.data[2] == 255);
+		REQUIRE(image2.data[3] == 0);
 	}
 
 	SECTION("Copy Assignment") {
@@ -33,6 +57,16 @@ TEST_CASE("Copy Constructor/Assignment", "[copy operators]") {
 		REQUIRE(image1.height == 2);
 		REQUIRE(image2.width == 2);
 		REQUIRE(image2.height == 2);
+
+		REQUIRE(image1.data[0] == 255);
+		REQUIRE(image1.data[1] == 0);
+		REQUIRE(image1.data[2] == 255);
+		REQUIRE(image1.data[3] == 0);
+
+		REQUIRE(image2.data[0] == 255);
+		REQUIRE(image2.data[1] == 0);
+		REQUIRE(image2.data[2] == 255);
+		REQUIRE(image2.data[3] == 0);
 	}
 }
 
@@ -48,23 +82,37 @@ TEST_CASE("Move Constructor/Assignment", "[move operators]") {
 
 	SECTION("Move Constructor") {
 
-		Image image2(std::move(image1));
+		Image image2(move(image1));
 
 		REQUIRE(image1.width == 0);
 		REQUIRE(image1.height == 0);
 		REQUIRE(image2.width == 2);
 		REQUIRE(image2.height == 2);
+
+		REQUIRE(image1.data == nullptr);
+
+		REQUIRE(image2.data[0] == 255);
+		REQUIRE(image2.data[1] == 0);
+		REQUIRE(image2.data[2] == 255);
+		REQUIRE(image2.data[3] == 0);
 	}
 
 	SECTION("Move Assignment") {
 
 		Image image2;
-		image2 = std::move(image1);
+		image2 = move(image1);
 
 		REQUIRE(image1.width == 0);
 		REQUIRE(image1.height == 0);
 		REQUIRE(image2.width == 2);
 		REQUIRE(image2.height == 2);
+
+		REQUIRE(image1.data == nullptr);
+
+		REQUIRE(image2.data[0] == 255);
+		REQUIRE(image2.data[1] == 0);
+		REQUIRE(image2.data[2] == 255);
+		REQUIRE(image2.data[3] == 0);
 	}
 }
 
