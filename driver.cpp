@@ -41,7 +41,7 @@ int main(int argc, char* argv[]) {
 			}
 
 			else if (operation == "-l") {
-				cout << "Masking image " << image1Name << " to " << output << endl;
+				cout << "Masking image " << image1Name << " and " << argv[3] << " to " << output << endl;
 				image2Obj.loadImage(argv[3]);
 				imageOutputObj = image1Obj/image2Obj;
 			}
