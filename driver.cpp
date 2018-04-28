@@ -4,8 +4,7 @@
 #include "Image.h"
 
 int main(int argc, char* argv[]) {
-	
-	//using namespace RHMMUH005;
+
 	using namespace std;
 
 	string operation = argv[1];
@@ -21,6 +20,7 @@ int main(int argc, char* argv[]) {
 
 	if (argc == 4) {
 		if (operation == "-i") {
+			cout << "Inverting image " << image1Name << " to " << output << endl;
 			imageOutputObj = !image1Obj;
 		}
 	}
@@ -29,22 +29,26 @@ int main(int argc, char* argv[]) {
 		if (operation == "-a" || operation == "-s" || operation == "-l") {
 
 			if (operation == "-a") {
+				cout << "Adding images " << image1Name << " and " << argv[3] << " to produce " << output << endl;
 				image2Obj.loadImage(argv[3]);
 				imageOutputObj = image1Obj + image2Obj;
 			}
 
 			else if (operation == "-s") {
+				cout << "Subtracting " << argv[3] << " from " << image1Name << " to produce " << output << endl;
 				image2Obj.loadImage(argv[3]);
 				imageOutputObj = image1Obj - image2Obj;
 			}
 
 			else if (operation == "-l") {
+				cout << "Masking image " << image1Name << " to " << output << endl;
 				image2Obj.loadImage(argv[3]);
 				imageOutputObj = image1Obj/image2Obj;
 			}
 		}
 
 		else if (operation == "-t") {
+			cout << "Threshold operation on image " << image1Name << " to " << output << endl;
 			int threshold = stoi(argv[3]);
 			imageOutputObj = image1Obj * threshold;
 		}
